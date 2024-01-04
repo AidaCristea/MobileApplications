@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 
 import '../Expense.dart';
@@ -306,6 +308,7 @@ class _AddExpenseScreenState extends State<AddExpenseScreen> {
                           height: 40,
                           child: ElevatedButton(
                             onPressed: () => {
+                              log("Save button pressed"),
                               if (_formKey.currentState!.validate())
                                 {
                                   Navigator.pop(

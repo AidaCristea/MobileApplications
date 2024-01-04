@@ -31,13 +31,12 @@ class _AllExpensesScreenState extends State<AllExpensesScreen> {
   late List<Expense> expenses;
 
   @override
-  void initState(){
+  void initState() {
     super.initState();
     //isNetworkConnected();
     getExpensesFromFuture();
     checkNetworkAndSyncData();
   }
-
 
 /*  @override
   void onLifecycleEvent(LifecycleEvent event) {
@@ -45,7 +44,6 @@ class _AllExpensesScreenState extends State<AllExpensesScreen> {
       checkNetworkAndSyncData();
     }
   }*/
-
 
   void getExpensesFromFuture() async {
     log("in getALl");
@@ -59,8 +57,6 @@ class _AllExpensesScreenState extends State<AllExpensesScreen> {
     }
   }
 
-
-
   void showSnackBar(String message) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
@@ -70,21 +66,21 @@ class _AllExpensesScreenState extends State<AllExpensesScreen> {
     );
   }
 
-
   Future<void> syncDataWithServer() async {
     try {
       List<Expense> expensesServer = await expenseAPI.retrieveAllExpenses();
       log("data from server");
-      for(Expense exp in expensesServer)
-        {
-          log(exp.id.toString() + " " + exp.title);
-        }
+      for (Expense exp in expensesServer) {
+        log(exp.id.toString() + " " + exp.title);
+      }
 
       //getExpensesFromFuture();
-      List<Expense> expensesDatabase = await dbHelper.getExpenses();
+      //List<Expense> expensesDatabase = await dbHelper.getExpenses();
+      expenses = await dbHelper.getExpenses();
+      List<Expense> expensesDatabase = expenses;
+
       log("data from db");
-      for(Expense exp in expensesDatabase)
-      {
+      for (Expense exp in expensesDatabase) {
         log(exp.id.toString() + " " + exp.title);
       }
 
@@ -92,8 +88,12 @@ class _AllExpensesScreenState extends State<AllExpensesScreen> {
         bool exists = expensesServer.any((e2) => e1.id == e2.id);
 
         if (!exists) {
+          log("expense to add in server has id " + e1.id.toString());
+          //Expense addedExpense = await expenseAPI.createExpenseOnServer(e1);
           await expenseAPI.createExpenseOnServer(e1);
           log("Added item from local db: $e1");
+          //e1.id = addedExpense.id;
+          //log("The new id of the expense that existed in the db is : " + e1.id.toString());
         }
       }
 
@@ -108,7 +108,7 @@ class _AllExpensesScreenState extends State<AllExpensesScreen> {
 
       for (Expense e1 in expensesDatabase) {
         bool different = expensesServer.any((e2) =>
-        e1.id == e2.id &&
+            e1.id == e2.id &&
             (e1.title != e2.title ||
                 e1.description != e2.description ||
                 e1.amount != e2.amount ||
@@ -122,33 +122,37 @@ class _AllExpensesScreenState extends State<AllExpensesScreen> {
         }
       }
     } catch (e) {
-
       showSnackBar("Failed to synchronize data with the server!");
       print("Failed to synchronize data with the server: $e");
     }
+
+    log("Data after sync");
+    for (Expense exp in expenses) {
+      log(exp.id.toString() + " " + exp.title);
+    }
   }
-
-
-
-
-
-
-
-
-
-
 
   Future<bool> isNetworkConnected() async {
-    var connectivityResult = await Connectivity().checkConnectivity();
+    /*var connectivityResult = await Connectivity().checkConnectivity();
     if (connectivityResult == ConnectivityResult.none) {
-      showConnectionDialog(context, false);
+      //showConnectionDialog(context, false);
       return false;
     }
-    showConnectionDialog(context, true);
-    return true;
+    //showConnectionDialog(context, true);
+    return true;*/
+    var connectivityResult = await Connectivity().checkConnectivity();
+    if (connectivityResult == ConnectivityResult.none) {
+      return false;
+    }
+
+    var connectivity = await Connectivity().checkConnectivity();
+    if (connectivity == ConnectivityResult.mobile ||
+        connectivity == ConnectivityResult.wifi) {
+      return true;
+    }
+
+    return false;
   }
-
-
 
   Expense? getExpenseById(int id) {
     for (Expense e in expenses) {
@@ -157,6 +161,7 @@ class _AllExpensesScreenState extends State<AllExpensesScreen> {
   }
 
   void updateExpense(Expense newExpense) {
+    log("In update expenses list that is shown");
     for (int i = 0; i < expenses.length; i++) {
       if (expenses[i].id == newExpense.id) expenses[i] = newExpense;
     }
@@ -165,6 +170,20 @@ class _AllExpensesScreenState extends State<AllExpensesScreen> {
   void removeFromList(int id) {
     expenses.removeWhere((element) => element.id == id);
   }
+
+  Future<Expense?> searchExpense(Expense newExpense)
+  async {
+    List<Expense> newExpenses = await dbHelper.getExpenses();
+    for(Expense e in newExpenses)
+    {
+      if(e.title == newExpense.title && e.description == newExpense.description && e.amount == newExpense.amount && e.category==newExpense.category && e.date==newExpense.date && e.payment_method==newExpense.payment_method)
+      {
+        return e;
+      }
+    }
+    return null;
+  }
+
 
   _showDialog(BuildContext context, int id) {
     showDialog(
@@ -177,13 +196,13 @@ class _AllExpensesScreenState extends State<AllExpensesScreen> {
                   child: Text("Yes"),
                   onPressed: () async {
                     try {
-                      if(this.isNetworkConnected()==true)
-                        {
-                          await expenseAPI.deleteExpenseOnServer(id);
-
-                        }
+                      bool conn = await isNetworkConnected();
+                      if (conn == true) {
+                        await expenseAPI.deleteExpenseOnServer(id);
+                      }
 
                       await dbHelper.deleteExpense(id);
+
                       setState(() {
                         //removeFromList(id);
                         Navigator.of(context).pop();
@@ -208,7 +227,6 @@ class _AllExpensesScreenState extends State<AllExpensesScreen> {
               ],
             ));
   }
-
 
   void showConnectionDialog(BuildContext context, bool isConnected) {
     showDialog(
@@ -268,12 +286,44 @@ class _AllExpensesScreenState extends State<AllExpensesScreen> {
               MaterialPageRoute(builder: (context) => AddExpenseScreen()));
 
           try {
+
             await dbHelper.createExpense(expense);
+            log("aded in local db");
+
+            Expense? foundExp = await searchExpense(expense);
+
+            //sleep(10 as Duration);
+            if(foundExp !=null)
+              {
+                if(expense != null)
+                {
+                  bool conn = await isNetworkConnected();
+                  //sleep(5 as Duration);
+                  log("network connected " + conn.toString());
+                  if (conn == true) {
+
+                    log("in is connected add the expense ");
+                    //await expenseAPI.createExpenseOnServer(await dbHelper.findByAttributesExceptId(expense));
+                    await expenseAPI.createExpenseOnServer(foundExp);
+
+                  }
+                }
+              }
+
+
+
+            
+
+
+
             setState(() {
               ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                 content: Text("Added!"),
               ));
               expenses.add(expense);
+
+              log("data from db after add");
+
             });
           } catch (e) {
             print("Error creating expense");
@@ -354,7 +404,14 @@ class _AllExpensesScreenState extends State<AllExpensesScreen> {
                                       UpdateExpenseScreen(expense: expense!)));
 
                           try {
+                            bool conn = await isNetworkConnected();
+                            if (conn == true) {
+                              log("In update is connected");
+                              await expenseAPI.updateExpenseOnServer(exp);
+                            }
+
                             await dbHelper.updateExpense(exp);
+
                             setState(() {
                               ScaffoldMessenger.of(context)
                                   .showSnackBar(SnackBar(

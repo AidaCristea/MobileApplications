@@ -42,12 +42,13 @@ class ExpenseAPI {
 
   Future<Expense> createExpenseOnServer(Expense newExpense) async {
     log("in create expense");
+    log("New expense has id " + newExpense.id.toString());
     final response = await server.post(
       Uri.parse(baseURL),
       headers: {
         'Content-Type': 'application/json',
       },
-      body: json.encode(newExpense.toMap()), // Convert the newExpense to JSON
+      body: json.encode(newExpense.toMapServer()), // Convert the newExpense to JSON
     );
     print(response.body);
 
@@ -55,7 +56,8 @@ class ExpenseAPI {
       // If the server returns a 201 Created response, parse the JSON response
       // into an Expense object and return it
       final dynamic jsonExpense = json.decode(response.body);
-      return Expense.fromMap(jsonExpense);
+
+      return Expense.fromMapServer(jsonExpense);
     } else {
       // If the server did not return a 201 Created response, throw an exception
       throw Exception('Failed to create expense on server');
@@ -63,20 +65,26 @@ class ExpenseAPI {
   }
 
   Future<Expense> updateExpenseOnServer(Expense updatedExpense) async {
-    final response = await server.put(
-      Uri.parse('$baseURL/${updatedExpense.id}'),
+    var url = Uri.parse(baseURL);
+    log("updatedExp " + updatedExpense.id.toString() + " " + updatedExpense.title);
+    http.Response response = await http.put(
+
+    //final response = await server.put(
+      //Uri.parse('$baseURL/${updatedExpense.id}'),
+      url,
       headers: {
         'Content-Type': 'application/json',
       },
       body: json
-          .encode(updatedExpense.toMap()), // Convert the updatedExpense to JSON
+          .encode(updatedExpense.toMapServer()), // Convert the updatedExpense to JSON
     );
+    print(response.body);
 
     if (response.statusCode == 200) {
       // If the server returns a 200 OK response, parse the JSON response
       // into an Expense object and return it
       final dynamic jsonExpense = json.decode(response.body);
-      return Expense.fromMap(jsonExpense);
+      return Expense.fromMapServer(jsonExpense);
     } else {
       // If the server did not return a 200 OK response, throw an exception
       throw Exception('Failed to update expense on server');

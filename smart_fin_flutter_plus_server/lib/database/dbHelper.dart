@@ -1,6 +1,8 @@
 import 'dart:async';
+import 'dart:developer';
 import 'dart:io';
 
+import 'package:intl/intl.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 //import 'package:smart_fin_flutter/Expense.dart';
@@ -11,7 +13,7 @@ import '../Expense.dart';
 class DBHelper {
   //DatabaseConnection
 
-  final dbName = "smartFinDB3.db";
+  final dbName = "smartFinDB5.db";
   final dbVersion = 1;
   final _table = "expense";
 
@@ -68,4 +70,34 @@ class DBHelper {
 
     return expenseList;
   }
+
+  /*Future<Expense> findByAttributesExceptId(Expense expense) async {
+    var dbReady = await dbInstance.database;
+    log("Query Values: ${expense.title}, ${expense.description}, ${expense.amount}, ${expense.category}, ${expense.date.toString()}, ${expense.payment_method}");
+
+
+
+    List<Map<String, dynamic>> result = await dbReady.query(
+      _table,
+      where: 'title = ? AND description = ? AND amount = ? AND category = ? AND date = ? AND payment_method = ?',
+      whereArgs: [
+        expense.title,
+        expense.description,
+        expense.amount,
+        expense.category,
+        expense.date.toString(),
+        expense.payment_method,
+      ],
+    );
+
+    log(result.toString());
+
+
+    if (result.isNotEmpty) {
+      return Expense.fromMap(result.first);
+    }
+    throw Future.error("error");
+  }*/
+
+
 }

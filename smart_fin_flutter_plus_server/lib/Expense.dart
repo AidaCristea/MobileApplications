@@ -37,6 +37,18 @@ class Expense {
     };
   }
 
+  Map<String, dynamic> toMapServer(){
+    return{
+      'id': id,
+      'title': title,
+      'description': description,
+      'amount': amount,
+      'category': category,
+      'date': date.toIso8601String(),
+      'payment_method': payment_method
+    };
+  }
+
 
   static List<Expense> init() {
     List<Expense> expenses = [
