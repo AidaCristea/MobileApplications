@@ -19,6 +19,15 @@ public class ExpenseService {
 
     public Expense createExpense(Expense expense)
     {
+        /*System.out.println("Id of the expense we want to add: "+expense.getId());
+        Expense exp = new Expense();
+        exp.setId(expense.getId());
+        exp.setTitle(expense.getTitle());
+        exp.setDescription(expense.getDescription());
+        exp.setAmount(expense.getAmount());
+        exp.setCategory(expense.getCategory());
+        exp.setDate(expense.getDate());
+        exp.setPayment_method(expense.getPayment_method());*/
         Expense savedExp = expenseRepo.save(expense);
         System.out.println("The expense: " + expense.toString() + " was successfully saved!");
         return savedExp;
