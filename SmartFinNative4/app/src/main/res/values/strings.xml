@@ -1,0 +1,57 @@
+<resources>
+    <string name="app_name">SmartFinNative4</string>
+    <string name="smart_fin">SmartFin</string>
+    <string name="start">Start</string>
+    <string name="add_expense">Add Expense</string>
+
+    <string name="id">ID</string>
+    <string name="title">Title</string>
+    <string name="description">Description</string>
+    <string name="amount">Amount</string>
+    <string name="category">Category</string>
+    <string name="date">Date</string>
+    <string name="payment_method">Payment Method</string>
+
+
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="deleteMessage">Are you sure you want to delete</string>
+
+
+    <string name="createExpense">Create expense</string>
+    <string name="createID">ID</string>
+
+    <string name="titleCreate">Title...</string>
+    <string name="descriptionCreate">Description...</string>
+    <string name="amountCreate">Amount...</string>
+    <string name="categoryCreate">Category...</string>
+    <string name="dateCreate">Date...</string>
+    <string name="paymentMethodCreate">Payment method...</string>
+
+
+    <string name ="cancelButton">Cancel</string>
+    <string name ="saveButton">Save</string>
+
+
+    <string name="updateExpense">Update expense</string>
+    <string name="titleUpdate">Title...</string>
+    <string name="descriptionUpdate">Description...</string>
+    <string name="amountUpdate">Amount...</string>
+    <string name="categoryUpdate">Category...</string>
+    <string name="dateUpdate">Date...</string>
+    <string name="paymentMethodUpdate">Payment method...</string>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</resources>

@@ -9,17 +9,6 @@ class ExpenseAPI {
   final http.Client server = http.Client();
 
   Future<List<Expense>> retrieveAllExpenses() async {
-    /*log("in retreieve all");
-    final response = await server.get(Uri.parse('$baseURL/expense'), headers:{'Content-Type': 'application/json',} );
-    log("response " + response.body);
-
-    if (response.statusCode == 200) {
-      final List<dynamic> jsonExpenses = json.decode(response.body);
-      List<Expense> expenses =
-          jsonExpenses.map((json) => Expense.fromMap(json)).toList();
-      log("retreives expenses done");
-      return expenses;*/
-
     var url = Uri.parse(baseURL);
     http.Response response = await http.get(
       url,
@@ -48,7 +37,8 @@ class ExpenseAPI {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: json.encode(newExpense.toMapServer()), // Convert the newExpense to JSON
+      body: json
+          .encode(newExpense.toMapServer()), // Convert the newExpense to JSON
     );
     print(response.body);
 
@@ -66,17 +56,17 @@ class ExpenseAPI {
 
   Future<Expense> updateExpenseOnServer(Expense updatedExpense) async {
     var url = Uri.parse(baseURL);
-    log("updatedExp " + updatedExpense.id.toString() + " " + updatedExpense.title);
+    log("updatedExp " +
+        updatedExpense.id.toString() +
+        " " +
+        updatedExpense.title);
     http.Response response = await http.put(
-
-    //final response = await server.put(
-      //Uri.parse('$baseURL/${updatedExpense.id}'),
       url,
       headers: {
         'Content-Type': 'application/json',
       },
-      body: json
-          .encode(updatedExpense.toMapServer()), // Convert the updatedExpense to JSON
+      body: json.encode(
+          updatedExpense.toMapServer()), // Convert the updatedExpense to JSON
     );
     print(response.body);
 

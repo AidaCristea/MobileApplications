@@ -5,7 +5,6 @@ import com.example.MobileServer.repo.ExpenseRepo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import javax.swing.text.html.Option;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,34 +15,21 @@ public class ExpenseService {
     private final ExpenseRepo expenseRepo;
 
     //create expense
-
-    public Expense createExpense(Expense expense)
-    {
-        /*System.out.println("Id of the expense we want to add: "+expense.getId());
-        Expense exp = new Expense();
-        exp.setId(expense.getId());
-        exp.setTitle(expense.getTitle());
-        exp.setDescription(expense.getDescription());
-        exp.setAmount(expense.getAmount());
-        exp.setCategory(expense.getCategory());
-        exp.setDate(expense.getDate());
-        exp.setPayment_method(expense.getPayment_method());*/
+    public Expense createExpense(Expense expense) {
         Expense savedExp = expenseRepo.save(expense);
         System.out.println("The expense: " + expense.toString() + " was successfully saved!");
         return savedExp;
     }
 
     //get expense
-    public Expense getExpense(Integer id)
-    {
+    public Expense getExpense(Integer id) {
         Expense foundExp = expenseRepo.findById(id).orElseThrow();
         System.out.println("The expense with the given id is " + foundExp.toString());
         return foundExp;
     }
 
     //get all
-    public List<Expense> allExpenses()
-    {
+    public List<Expense> allExpenses() {
         System.out.println("Returning all expenses");
         return expenseRepo.findAll();
     }
@@ -51,8 +37,7 @@ public class ExpenseService {
     //update expense
     public Expense updateExpense(Expense updatedExp) throws Exception {
         Optional<Expense> searchExp = expenseRepo.findById(updatedExp.getId());
-        if(searchExp.isPresent())
-        {
+        if (searchExp.isPresent()) {
             Expense foundExp = searchExp.get();
             foundExp.setTitle(updatedExp.getTitle());
             foundExp.setDescription(updatedExp.getDescription());
@@ -62,8 +47,7 @@ public class ExpenseService {
             foundExp.setPayment_method(updatedExp.getPayment_method());
             System.out.println("Updated expense: " + foundExp.toString());
             return expenseRepo.save(foundExp);
-        }
-        else {
+        } else {
             throw new Exception("No expense found!");
         }
 
@@ -72,14 +56,12 @@ public class ExpenseService {
 
     //delete expense
     public void deleteExpense(Integer id) throws Exception {
-        if(!expenseRepo.existsById(id))
-        {
+        if (!expenseRepo.existsById(id)) {
             throw new Exception("No expense with the given id was found");
         }
         System.out.println("Delete expense with the given id");
         expenseRepo.deleteById(id);
     }
-
 
 
 }

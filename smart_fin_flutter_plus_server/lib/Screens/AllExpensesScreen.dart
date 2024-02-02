@@ -1,8 +1,7 @@
 import 'dart:core';
-import 'dart:core';
 import 'dart:developer';
-import 'dart:io';
 
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -12,10 +11,6 @@ import 'package:smart_fin_flutter/server/ExpenseAPI.dart';
 import '../Expense.dart';
 import '../Screens/UpdateExpenseScreen.dart';
 import '../database/dbHelper.dart';
-
-import 'package:lifecycle/lifecycle.dart';
-
-import 'package:connectivity_plus/connectivity_plus.dart';
 
 class AllExpensesScreen extends StatefulWidget {
   const AllExpensesScreen({super.key});
@@ -33,17 +28,9 @@ class _AllExpensesScreenState extends State<AllExpensesScreen> {
   @override
   void initState() {
     super.initState();
-    //isNetworkConnected();
     getExpensesFromFuture();
     checkNetworkAndSyncData();
   }
-
-/*  @override
-  void onLifecycleEvent(LifecycleEvent event) {
-    if (event == LifecycleEvent.active) {
-      checkNetworkAndSyncData();
-    }
-  }*/
 
   void getExpensesFromFuture() async {
     log("in getALl");
@@ -92,8 +79,6 @@ class _AllExpensesScreenState extends State<AllExpensesScreen> {
           //Expense addedExpense = await expenseAPI.createExpenseOnServer(e1);
           await expenseAPI.createExpenseOnServer(e1);
           log("Added item from local db: $e1");
-          //e1.id = addedExpense.id;
-          //log("The new id of the expense that existed in the db is : " + e1.id.toString());
         }
       }
 
@@ -133,25 +118,13 @@ class _AllExpensesScreenState extends State<AllExpensesScreen> {
   }
 
   Future<bool> isNetworkConnected() async {
-    /*var connectivityResult = await Connectivity().checkConnectivity();
-    if (connectivityResult == ConnectivityResult.none) {
-      //showConnectionDialog(context, false);
-      return false;
-    }
-    //showConnectionDialog(context, true);
-    return true;*/
     var connectivityResult = await Connectivity().checkConnectivity();
     if (connectivityResult == ConnectivityResult.none) {
+      showConnectionDialog(context, false);
       return false;
     }
-
-    var connectivity = await Connectivity().checkConnectivity();
-    if (connectivity == ConnectivityResult.mobile ||
-        connectivity == ConnectivityResult.wifi) {
-      return true;
-    }
-
-    return false;
+    showConnectionDialog(context, true);
+    return true;
   }
 
   Expense? getExpenseById(int id) {
@@ -171,19 +144,20 @@ class _AllExpensesScreenState extends State<AllExpensesScreen> {
     expenses.removeWhere((element) => element.id == id);
   }
 
-  Future<Expense?> searchExpense(Expense newExpense)
-  async {
+  Future<Expense?> searchExpense(Expense newExpense) async {
     List<Expense> newExpenses = await dbHelper.getExpenses();
-    for(Expense e in newExpenses)
-    {
-      if(e.title == newExpense.title && e.description == newExpense.description && e.amount == newExpense.amount && e.category==newExpense.category && e.date==newExpense.date && e.payment_method==newExpense.payment_method)
-      {
+    for (Expense e in newExpenses) {
+      if (e.title == newExpense.title &&
+          e.description == newExpense.description &&
+          e.amount == newExpense.amount &&
+          e.category == newExpense.category &&
+          e.date == newExpense.date &&
+          e.payment_method == newExpense.payment_method) {
         return e;
       }
     }
     return null;
   }
-
 
   _showDialog(BuildContext context, int id) {
     showDialog(
@@ -286,35 +260,24 @@ class _AllExpensesScreenState extends State<AllExpensesScreen> {
               MaterialPageRoute(builder: (context) => AddExpenseScreen()));
 
           try {
-
             await dbHelper.createExpense(expense);
             log("aded in local db");
 
             Expense? foundExp = await searchExpense(expense);
 
             //sleep(10 as Duration);
-            if(foundExp !=null)
-              {
-                if(expense != null)
-                {
-                  bool conn = await isNetworkConnected();
-                  //sleep(5 as Duration);
-                  log("network connected " + conn.toString());
-                  if (conn == true) {
-
-                    log("in is connected add the expense ");
-                    //await expenseAPI.createExpenseOnServer(await dbHelper.findByAttributesExceptId(expense));
-                    await expenseAPI.createExpenseOnServer(foundExp);
-
-                  }
+            if (foundExp != null) {
+              if (expense != null) {
+                bool conn = await isNetworkConnected();
+                //sleep(5 as Duration);
+                log("network connected " + conn.toString());
+                if (conn == true) {
+                  log("in is connected add the expense ");
+                  //await expenseAPI.createExpenseOnServer(await dbHelper.findByAttributesExceptId(expense));
+                  await expenseAPI.createExpenseOnServer(foundExp);
                 }
               }
-
-
-
-            
-
-
+            }
 
             setState(() {
               ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -323,7 +286,6 @@ class _AllExpensesScreenState extends State<AllExpensesScreen> {
               expenses.add(expense);
 
               log("data from db after add");
-
             });
           } catch (e) {
             print("Error creating expense");

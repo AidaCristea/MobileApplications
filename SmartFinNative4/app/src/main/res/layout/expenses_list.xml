@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/expsenseLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#C5EFCE"
+    android:orientation="vertical"
+    tools:context=".allExpenses.ExpensesListActivity">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <!--tools:viewBindingIgnore="true"-->
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:orientation="horizontal"
+            android:background="#1C5812"
+            >
+
+            <TextView
+                android:id="@+id/titleTV"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_weight="1"
+                android:text="@string/smart_fin"
+                android:textColor="#FFFFFF"
+                android:textSize="40sp" />
+
+
+            <ImageView
+                android:id="@+id/imageView2"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_weight="1"
+                android:src="@drawable/flying_money_4385660_3640566" />
+
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="366dp"
+            android:layout_height="600dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="20dp">
+
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recylerView"
+                android:layout_width="match_parent"
+                android:layout_height="600dp"
+                android:scrollbars="vertical"
+                app:layoutManager="LinearLayoutManager"
+                />
+
+        </RelativeLayout>
+
+        <ImageView
+            android:id="@+id/addExpenseButton"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:layout_marginTop="15dp"
+            android:contentDescription="@string/add_expense"
+            android:src="@drawable/plus_icon_icons_com_69322"
+            />
+
+
+    </LinearLayout>
+
+
+</LinearLayout>

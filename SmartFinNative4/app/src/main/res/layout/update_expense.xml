@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:launchMode="singleTask"
+    android:background="#C5EFCE"
+    android:orientation="vertical"
+    tools:context=".service.EditExpenseActivity"
+    >
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="16dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:background="#1C5812"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/titleTV"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_weight="1"
+                android:text="@string/smart_fin"
+                android:textColor="#FFFFFF"
+                android:textSize="40sp" />
+
+
+            <ImageView
+                android:id="@+id/imageView2"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_weight="1"
+                android:src="@drawable/flying_money_4385660_3640566" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/updateExpenseTV"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="116dp"
+            android:text="@string/updateExpense"
+            android:textColor="#1C5812"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.099"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <EditText
+            android:id="@+id/idInputUpdate"
+            android:layout_width="70dp"
+            android:layout_height="33dp"
+            android:layout_marginTop="120dp"
+            android:autofillHints=""
+            android:background="#E1D8B1"
+            android:ems="10"
+            android:inputType="none"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            android:textColorHint="#000000"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.926"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="TouchTargetSizeCheck" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <EditText
+        android:id="@+id/titleInputUpdate"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="180dp"
+        android:layout_marginRight="10dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:autofillHints=""
+        android:background="#E1D8B1"
+        android:ems="10"
+        android:inputType="text"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
+        android:text="@string/titleUpdate"
+        android:textSize="20sp"
+        tools:ignore="TouchTargetSizeCheck" />
+
+    <EditText
+        android:id="@+id/descriptionInputUpdate"
+        android:layout_width="match_parent"
+        android:layout_height="130dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="240dp"
+        android:layout_marginRight="10dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:autofillHints=""
+        android:background="#E1D8B1"
+        android:ems="10"
+        android:inputType="text"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
+        android:text="@string/descriptionUpdate"
+        android:textSize="20sp"
+        tools:ignore="TouchTargetSizeCheck"/>
+
+    <EditText
+        android:id="@+id/amountInputUpdate"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="145dp"
+        android:layout_marginRight="10dp"
+        app:layout_constraintTop_toTopOf="@id/descriptionInputUpdate"
+        app:layout_constraintStart_toStartOf="@id/descriptionInputUpdate"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:autofillHints=""
+        android:background="#E1D8B1"
+        android:ems="10"
+        android:inputType="text"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
+
+        android:text="@string/amountUpdate"
+        android:textSize="20sp"
+        tools:ignore="TouchTargetSizeCheck"/>
+
+    <EditText
+        android:id="@+id/categoryInputUpdate"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="60dp"
+        android:layout_marginRight="10dp"
+        app:layout_constraintTop_toTopOf="@id/amountInputUpdate"
+        app:layout_constraintStart_toStartOf="@id/amountInputUpdate"
+        app:layout_constraintEnd_toEndOf="@id/amountInputUpdate"
+        android:autofillHints=""
+        android:background="#E1D8B1"
+        android:ems="10"
+        android:inputType="text"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
+
+        android:text="@string/categoryUpdate"
+        android:textSize="20sp"
+        tools:ignore="TouchTargetSizeCheck"/>
+
+    <EditText
+        android:id="@+id/dateInputUpdate"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="60dp"
+        android:layout_marginRight="10dp"
+        app:layout_constraintTop_toTopOf="@id/categoryInputUpdate"
+        app:layout_constraintStart_toStartOf="@id/categoryInputUpdate"
+        app:layout_constraintEnd_toEndOf="@id/categoryInputUpdate"
+        android:autofillHints=""
+        android:ems="10"
+        android:inputType="date"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
+        android:background="#E1D8B1"
+        android:text="@string/dateUpdate"
+        android:textSize="20sp"
+        tools:ignore="TouchTargetSizeCheck"/>
+
+    <EditText
+        android:id="@+id/paymentMethInputUpdate"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="60dp"
+        android:layout_marginRight="10dp"
+        app:layout_constraintTop_toTopOf="@id/dateInputUpdate"
+        app:layout_constraintStart_toStartOf="@id/dateInputUpdate"
+        app:layout_constraintEnd_toEndOf="@id/dateInputUpdate"
+        android:autofillHints=""
+        android:background="#E1D8B1"
+        android:ems="10"
+        android:inputType="text"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
+
+        android:text="@string/paymentMethodUpdate"
+        android:textSize="20sp"
+        tools:ignore="TouchTargetSizeCheck"/>
+
+
+    <Button
+        android:id="@+id/cancelButtonUpdate"
+        android:layout_width="116dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="45dp"
+        android:layout_marginTop="647dp"
+        android:layout_marginEnd="250dp"
+        android:layout_marginBottom="36dp"
+        android:text="@string/cancelButton"
+        android:textSize="18sp"
+        android:visibility="visible"
+        android:backgroundTint="#f66e50"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        />
+
+    <Button
+        android:id="@+id/saveButtonUpdate"
+        android:layout_width="116dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="244dp"
+        android:layout_marginTop="647dp"
+        android:layout_marginEnd="51dp"
+        android:layout_marginBottom="36dp"
+        android:text="Update"
+        android:textSize="18sp"
+        android:visibility="visible"
+        android:backgroundTint="#1C5812"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
